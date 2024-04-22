@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome Page</title>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .background-image {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        z-index: -2;
+    }
+
+    .background-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.2); /* Adjust the alpha value to control the opacity */
+        z-index: -1;
+    }
+
+    .background-container {
+        background-color: #5CC8B7; /* Light teal color */
+        padding: 15px; /* Larger padding to create the effect of a border */
+        border-radius: 30px; /* Even larger border radius */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Larger shadow */
+        position: relative; /* Needed to position behind the outer container */
+        z-index: 0; /* Same z-index as the outer-container */
+    }
+
+    .outer-container {
+        background-color: #F98F01; /* Orange color for outer container */
+        padding: 10px; /* Smaller padding to create the effect of a border */
+        border-radius: 25px; /* Slightly larger border radius to appear behind the login-container */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Larger shadow for the outer container */
+        position: relative; /* Needed to position the outer container */
+        z-index: 1; /* Higher z-index than the background-container */
+    }
+
+    .login-container {
+        background-color: #013F54; /* Dark blue background color */
+        padding: 20px;
+        border-radius: 20px; /* Rounded corners */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        z-index: 2; /* Ensure the login-container is above the outer-container */
+    }
+
+    .button-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
+
+    .login-button {
+        background-color: #0B2F44; /* White background for buttons */
+        border: none;
+        cursor: pointer;
+        padding: 12px 24px; /* Padding inside the button */
+        border-radius: 20px; /* Rounded corners for buttons */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for buttons */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.3s;
+    }
+
+    .login-button:hover {
+        box-shadow: 0 2px #666; /* Shadow effect to give depth, adjust color as needed */
+        transform: translateY(2px); /* Slight move down */
+    }
+
+    .login-button:active {
+        box-shadow: 0 0 #666; /* Shadow effect to give depth, adjust color as needed */
+        transform: translateY(4px); /* Slight move down */
+    }
+
+    .button-text {
+        color: #013F54; /* Dark blue text to match the login-container background */
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        text-transform: uppercase;
+        margin-top: 8px; /* Adjusted spacing for visual alignment */
+    }
+
+    .header-text {
+        background-color: #058B7D; /* Using the same teal color from your containers */
+        color: black; /* White text color */
+        font-size: 24px; /* Example font size, adjust as needed */
+        font-weight: bold;
+        text-align: center;
+        border-radius: 10px; /* Slightly rounded corners for the header */
+        padding: 10px; /* Padding for aesthetic spacing */
+        margin-bottom: 20px; /* Space above the login-container */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Consistent shadow with other elements */
+        width: 80%; /* Set a width or use max-width for better control */
+        max-width: 600px; /* Maximum width */
+        box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+        margin-top: 20px;
+    }
+
+
+    .side-note {
+    width: 230px; /* Width of the side note */
+    padding: 20px;
+    background-color: #A57C4C; /* Background color of the side note */
+    background-image: linear-gradient(#ffa500, #db545a); /* Linear gradient background */
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2); /* Shadow for depth */
+    position: absolute; /* Absolute positioning relative to its nearest positioned ancestor */
+    right: 1240px; /* Distance from the right of the screen */
+    top: 10px; /* Distance from the top of the screen */
+    z-index: 3; /* Ensure it's above the other containers */
+    overflow: auto; /* In case the content overflows */
+    height: 97.5%; /* Adjust height as needed */
+    font-family: Arial, sans-serif; /* Font style similar to the example */
+    font-size: 14px; /* Font size similar to the example */
+    color: black; /* Text color */
+    border-radius: 10px; /* Rounded corners for the side note */
+    box-sizing: border-box; /* Includes padding in the width and height */
+    display: flex; /* Use flexbox to center content */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center children along the main axis */
+    text-align: center
+    }
+
+    .side-note h2 {
+    margin-top: 0;
+    color: black; /* Dark blue to match other elements */
+    }
+
+
+</style>
+</head>
+<body>
+    <header class="header-text">
+        Step Into Your Spaza Circle. Choose Your Role To Begin!
+    </header>
+    <!-- Background overlay -->
+    <div class="background-overlay"></div>
+    <!-- Background image -->
+    <img src="Images-Login/wel.png" alt="Test Image" class="background-image">
+    <!-- Main content -->
+    <!-- Side Note Container -->
+    <div class="side-note">
+        <h2>About</h2>
+        <p>A spaza shop, also known as a tuck shop, is an informal convenience shop business in South Africa. It's usually set up at someone's home. These shops sell basic things people need every day. They also help the owners make extra money for their families. There is often a number of them within an area and due to their limited stock, shoppers often find themselves needing to visit multiple spazas to find all the items they need on a shopping run. In addition to this, spazas often close and reopen at irregular hours since the owners run the shops themselves and sometimes have other matters to attend to. The often manual manner of record keeping also makes it difficult to identify stock losses, budget, and pre-empt stock shortages. This project aims to equip the spaza shop owners with the ability to manage their stock efficiently. The platform will also equip buyers with the ability to order their cart from multiple shops and get a view of an efficient journey to collect their goods once the order has been placed.</p>
+    </div>
+    <div class="background-container">
+            <div class="outer-container">
+                <div class="login-container">
+                    <!-- Admin Button -->
+                    <button class="login-button admin-button" onclick="navigateTo('admin')">
+                        <img class="button-image" src="Images-Login/admin.png" alt="Admin">
+                        <span class="button-text"></span>
+                    </button>
+
+                    <!-- Staff Button -->
+                    <button class="login-button staff-button" onclick="navigateTo('staff')">
+                        <img class="button-image" src="Images-Login/staff.png" alt="Staff">
+                        <span class="button-text"></span>
+                        
+                    </button>
+
+                    <!-- Customer Button -->
+                    <button class="login-button customer-button" onclick="navigateTo('shopper')">
+                        <img class="button-image" src="Images-Login/customer.png" alt="Customer">
+                        <span class="button-text"></span>
+
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    <script>
+        function navigateTo(userType) {
+            switch (userType) {
+                case 'admin':
+                    var adminPIN = prompt("Enter Admin PIN:");
+                    if (adminPIN === "admin123") {
+                        window.location.href = "admin-login.html";
+                    } else {
+                        alert("Invalid PIN for Admin.");
+                    }
+                    break;
+                case 'staff':
+                    var staffPIN = prompt("Enter Staff PIN:");
+                    if (staffPIN === "staff123") {
+                        window.location.href = "staff-login.html";
+                    } else {
+                        alert("Invalid PIN for Staff.");
+                    }
+                    break;
+                case 'shopper':
+                    window.location.href = "customer-login.html";
+                    break;
+                default:
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>
