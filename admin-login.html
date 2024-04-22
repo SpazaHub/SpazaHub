@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Admin Login Page</title>
+    <script type="module" src="admin.js" defer></script>
+
+  <style>
+
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .background-image {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        z-index: -2;
+    }
+
+    .background-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.2); /* Adjust the alpha value to control the opacity */
+        z-index: -1;
+    }
+
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .background-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.2); /* Adjust the alpha value to control the opacity */
+        z-index: -1;
+    }
+
+    .login-container {
+        background-color: #EDC390; /* Light orange background color */
+        padding: 20px;
+        border-radius: 20px; /* Rounded corners */
+        display: flex;
+        flex-direction: column; /* Stack children vertically */
+        align-items: center;
+        gap: 20px;
+        z-index: 2; /* Ensure the login-container is above the outer-container */
+    }
+
+    .outer-container {
+        background-color: #CA702C; /* Orange color for outer container */
+        padding: 10px; /* Smaller padding to create the effect of a border */
+        border-radius: 25px; /* Slightly larger border radius to appear behind the login-container */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Larger shadow for the outer container */
+        position: relative; /* Needed to position the outer container */
+        z-index: 1; /* Higher z-index than the background-container */
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .form-input {
+      margin-bottom: 1px;
+    }
+    
+    .form-input input {
+      width: 300px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+
+    .form-input button {
+      width: 300px;
+      padding: 15px;
+      background-color: #004D51; /* Dark teal background color */
+      border: none;
+      border-radius: 3px;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .button-style {
+      width: 300px;
+      padding: 15px;
+      background-color: #004D51; /* Dark teal background color */
+      border: none;
+      border-radius: 3px;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .button-style:hover {
+      background-color: #ffa500;
+    }
+
+    .alternative {
+      text-align: center;
+      margin-top: 1px;
+    }
+    
+    .alternative a {
+      color: #B55421;
+      text-decoration: none;
+    }
+    
+    .alternative a:hover {
+      text-decoration: underline;
+    }
+
+
+
+    .login-button {
+        background-color: #0B2F44; /* White background for buttons */
+        border: none;
+        cursor: pointer;
+        padding: 12px 24px; /* Padding inside the button */
+        border-radius: 20px; /* Rounded corners for buttons */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for buttons */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.3s;
+    }
+
+    .login-button:hover {
+        box-shadow: 0 2px #666; /* Shadow effect to give depth, adjust color as needed */
+        transform: translateY(2px); /* Slight move down */
+    }
+
+    .login-button:active {
+        box-shadow: 0 0 #666; /* Shadow effect to give depth, adjust color as needed */
+        transform: translateY(4px); /* Slight move down */
+    }
+
+
+/* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 3;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4); /* Add a semi-transparent background */
+            padding: 20px;
+
+        }
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fefefe;
+            margin: 0;
+            border: 1px solid #888;
+            width: 300px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 20px;
+        }
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 5px;
+            font-size: 30px;
+            font-weight: bold;
+            color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #f44336;
+        }
+        
+        /* Change styles for cancel button and signup button on extra small screens */
+        @media screen and (max-width: 300px) {
+        .cancelbtn, .signupbtn {
+            width: 100%;
+        }
+        }
+
+        .cancelbtn, .signupbtn {
+            width: 120px;
+            padding: 15px;
+            background-color: #004D51;
+            border: none;
+            border-radius: 3px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .cancelbtn:hover, .signupbtn:hover {
+            background-color: #ffa500;
+        }
+
+        /* Clear floats */
+        .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+        }
+
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            width: 100%; 
+            padding: 5px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .home-button{
+            position: absolute;
+            right: 20px;
+            top:0;
+            transform: translateY(30%);
+        }
+        .home-button img {
+            width: 50px; 
+            height: 50px; 
+            cursor: pointer;
+        }
+
+  </style>
+</head>
+<body>
+    <header>
+        <div class="home-button">
+            <a href="index.html"> 
+                <img src="Images-Login/homebutton.png" alt="Home">
+            </a>
+        </div>
+    </header>
+    <div class="background-overlay"></div>
+    
+    <img src="Images-Login/log-ing.png" alt="Background Image" class="background-image">
+
+<div class="outer-container">
+    <div class="login-container">
+    <h2>Admin Log-In</h2>
+    <div class="form-input">
+        <input id="admin-email" type="email" placeholder="E-mail" required>
+    </div>
+    <div class="form-input">
+        <input id="admin-password" type="password" placeholder="Password" required>
+    </div>
+    <div class="form-input">
+        <button id="admin-login-btn" class="login-button Login-button">
+            <span class="button-text">Login</span>
+        </button>
+    </div>
+    </div>
+</div>
