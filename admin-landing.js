@@ -26,4 +26,26 @@ signOutBtn.addEventListener('click', () => {
         });
 });
 
+const registerShopper = document.getElementById('register-shopper-btn-admin');
+registerShopper.addEventListener('click', () => {
+    auth.signOut()
+        .then(() => {
+            window.location.href = "admin-create-shopper.html";
+        })
+        .catch((error) => {
+            console.error("Error going to admin create shopper page:", error);
+            alert("An error occurred. Please try again later.");
+        });
+});
 
+const registerStaff = document.getElementById('register-staff-btn-admin');
+registerStaff.addEventListener('click', () => {
+    auth.signOut()
+        .then(() => {
+            window.location.href = "admin-create-staff.html";
+        })
+        .catch((error) => {
+            console.error("Error going to admin create staff page:", error);
+            alert("An error occurred. Please try again later.");
+        });
+});
