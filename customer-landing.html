@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Dashboard</title>
-    <script type="module" src="customer-landing.js" defer></script>
-
+   
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,7 +26,59 @@
         <h1>Welcome Customer!</h1>
         <button id="sign-out-btn">Sign Out</button>
 
-        <!-- Customer dashboard content goes here -->
+        <!-- Display user data -->
+        <div>
+            <h2>User Name: <span id="userName"></span></h2>
+            <h2>Email: <span id="userEmail"></span></h2>
+            <!-- You can add more elements here to display additional user data -->
+        </div>
     </div>
 </body>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDP7N-NJ_PbOs41BbX6AgLZrBWdyP-odJU",
+      authDomain: "espaza-login-final.firebaseapp.com",
+      projectId: "espaza-login-final",
+      appId: "1:358577580383:web:af7778db3431aaa2c72eea"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    // Function to retrieve and display user data
+    function retrieveAndDisplayUserData() {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const userName = user.displayName;
+                const userEmail = user.email;
+                document.getElementById('userName').textContent = userName || "No display name available";
+                document.getElementById('userEmail').textContent = userEmail || "No email available";
+            } else {
+                console.log("User not logged in");
+                // Redirect the user to the login page
+                window.location.href = "customer-login.html";
+            }
+        });
+    }
+
+    // Call retrieveAndDisplayUserData function when the page loads
+    window.addEventListener('load', retrieveAndDisplayUserData);
+
+    // Function to sign out
+    const signOutBtn = document.getElementById('sign-out-btn');
+    signOutBtn.addEventListener('click', () => {
+        auth.signOut()
+            .then(() => {
+                window.location.href = "customer-login.html";
+            })
+            .catch((error) => {
+                console.error("Error signing out:", error);
+                alert("An error occurred. Please try again later.");
+            });
+    });
+</script>
 </html>

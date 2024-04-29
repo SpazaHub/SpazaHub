@@ -28,6 +28,8 @@ submit.addEventListener("click", function(event) {
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         const user = userCredential.user;
+        const username = user.displayName; // Assuming the username is stored in the displayName field
+        sessionStorage.setItem("username", username);
         window.location.href = "customer-landing.html";
 
     })
@@ -39,6 +41,7 @@ submit.addEventListener("click", function(event) {
 });
 
 
+
 // Function to handle Google sign-in
 const handleGoogleSignIn = () => {
     signInWithPopup(auth, provider)
@@ -48,13 +51,25 @@ const handleGoogleSignIn = () => {
             const token = credential.accessToken;
             const additionalUserInfo = result.additionalUserInfo;
 
-            window.location.href = "customer-landing.html";
+            // Retrieve username from Google sign-in details
+            const username = user.displayName; // Assuming the username is stored in the displayName field
+            sessionStorage.setItem("username", username);
+
+            // Save user to database
+            saveUserToDatabase(username, user.email)
+                .then(() => {
+                    // Redirect to customer landing page after successfully saving user to database
+                    window.location.href = "customer-landing.html";
+                })
+                .catch((error) => {
+                    console.error("Error saving user to database:", error);
+                    alert("An error occurred while saving user to database.");
+                });
 
         })
         .catch((error) => {
-            const errorMessage = error.message;
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            alert("Google-in failed: " +errorMessage);
+            // Handle the error silently without displaying a popup
+            console.error("Google-in failed:", error);
         });
 };
 
@@ -73,7 +88,8 @@ googleLoginBtn.addEventListener("click", (event) => {
 document.getElementById('register-btn').addEventListener('click', function(e){
    e.preventDefault();
 
-   const username = document.getElementById("username").value;
+   const username = user.displayName; 
+    sessionStorage.setItem("username", username);
    const email = document.getElementById("register-email").value;
    const password = document.getElementById("register-password").value;
 
@@ -83,6 +99,7 @@ document.getElementById('register-btn').addEventListener('click', function(e){
                createUserWithEmailAndPassword(auth, email, password)
                    .then((userCredential) => {
                        saveUserToDatabase(username, email);
+                        sessionStorage.setItem("username", username);
                        window.location.href = "customer-login.html";
                    })
                    .catch((error) =>{
@@ -113,8 +130,18 @@ function checkUsernameExists(username) {
 }
 
 function saveUserToDatabase(username, email) {
-    set(ref(db, 'Customers/' + username), {
+    const userRef = ref(db, 'Customers/' + username);
+    
+    // Set user data in the database
+    return set(userRef, {
         username: username,
         email: email,
+    })
+    .then(() => {
+        console.log("User data saved to database successfully.");
+    })
+    .catch((error) => {
+        console.error("Error saving user to database:", error);
+        throw error; // Re-throw the error to propagate it further
     });
 }
