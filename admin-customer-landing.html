@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Customers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #56718fa6;
+        }
+        .container {
+            text-align: center;
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Customers</h1>
+        <button class="button" onclick="addShopper()">Add a Customer</button>
+        <button class="button" onclick="updateShopper()">Update a Current Customer</button>
+        <button class="button" onclick="deleteShopper()">Delete a Customer</button>
+    </div>
+
+    <script>
+        function addShopper() {
+
+        }
+
+        function updateShopper() {
+            window.location.href='admin-update-shopper.html';
+        }
+
+        function deleteShopper() {
+
+        }
+    </script>
+</body>
+</html>

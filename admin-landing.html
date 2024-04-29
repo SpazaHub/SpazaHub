@@ -7,27 +7,162 @@
     <script type="module" src="admin-landing.js" defer></script>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-        .container {
-            text-align: center;
+       body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .background-image {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        z-index: -2;
+    }
+
+    .background-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.2); /* Adjust the alpha value to control the opacity */
+        z-index: -1;
+    }
+
+    .background-container {
+        background-color: #5CC8B7; /* Light teal color */
+        padding: 15px; /* Larger padding to create the effect of a border */
+        border-radius: 30px; /* Even larger border radius */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Larger shadow */
+        position: relative; /* Needed to position behind the outer container */
+        z-index: 0; /* Same z-index as the outer-container */
+    }
+
+    .outer-container {
+        background-color: #F98F01; /* Orange color for outer container */
+        padding: 10px; /* Smaller padding to create the effect of a border */
+        border-radius: 25px; /* Slightly larger border radius to appear behind the login-container */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Larger shadow for the outer container */
+        position: relative; /* Needed to position the outer container */
+        z-index: 1; /* Higher z-index than the background-container */
+    }
+
+    .Manage-container {
+        background-color: #013F54; /* Dark blue background color */
+        padding: 20px;
+        border-radius: 20px; /* Rounded corners */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        z-index: 2; /* Ensure the login-container is above the outer-container */
+    }
+
+    .button-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
+
+    .Manage-button {
+        background-color: #0B2F44; /* White background for buttons */
+        border: none;
+        cursor: pointer;
+        padding: 12px 24px; /* Padding inside the button */
+        border-radius: 20px; /* Rounded corners for buttons */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for buttons */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.3s;
+    }
+
+    .Manage-button:hover {
+        box-shadow: 0 2px #666; /* Shadow effect to give depth, adjust color as needed */
+        transform: translateY(2px); /* Slight move down */
+    }
+
+    .Manage-button:active {
+        box-shadow: 0 0 #666; /* Shadow effect to give depth, adjust color as needed */
+        transform: translateY(4px); /* Slight move down */
+    }
+
+    .button-text {
+        color: #013F54; /* Dark blue text to match the login-container background */
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        text-transform: uppercase;
+        margin-top: 8px; /* Adjusted spacing for visual alignment */
+    }
+
+    .header-text {
+        background-color: #058B7D; /* Using the same teal color from your containers */
+        color: black; /* White text color */
+        font-size: 24px; /* Example font size, adjust as needed */
+        font-weight: bold;
+        text-align: center;
+        border-radius: 10px; /* Slightly rounded corners for the header */
+        padding: 10px; /* Padding for aesthetic spacing */
+        margin-bottom: 20px; /* Space above the login-container */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Consistent shadow with other elements */
+        width: 80%; /* Set a width or use max-width for better control */
+        max-width: 600px; /* Maximum width */
+        box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+        margin-top: 20px;
+    }
+    .top-right-button {
+            background-color: #000000;
+            color: #efe8f5;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome Admin!</h1>
-        <button id="sign-out-btn-admin">Sign Out</button>
+    <header class="header-text">
+        Admin Dashboard
+    </header>
+    <!-- Background overlay -->
+    <div class="background-overlay"></div>
+    <!-- Background image -->
+    <img src="Images-Login/log-ing.png" alt="Test Image" class="background-image">
+    <!-- Main content -->
+    <!-- Side Note Container -->
+    <button id="sign-out-btn-admin" class="top-right-button">Sign Out</button>
 
-        <!-- Admin dashboard content goes here -->
-    </div>
+    <div class="background-container">
+            <div class="outer-container">
+                <div class="Manage-container">
+                    <!-- Staff Button -->
+                    <button class="Manage-button staff-button" onclick="window.location.href='admin-staff-landing.html'">
+                        <img class="button-image" src="Images-Login/staff.png" alt="Staff">
+                        <span class="button-text"></span>
+                        
+                    </button>
+
+                    <!-- Customer Button -->
+                    <button class="Manage-button customer-button" onclick="window.location.href='admin-customer-landing.html'">
+                        <img class="button-image" src="Images-Login/customer.png" alt="Customer">
+                        <span class="button-text"></span>
+
+                    </button>
+                </div>
+            </div>
+        </div>
 </body>
 </html>

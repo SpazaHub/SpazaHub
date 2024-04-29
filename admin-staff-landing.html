@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Staff</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #56718fa6;
+        }
+        .container {
+            text-align: center;
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Staff</h1>
+        <button class="button" onclick="addStaff()">Add a Staff Member</button>
+        <button class="button" onclick="updateStaff()">Update a Staff Member</button>
+        <button class="button" onclick="deleteStaff()">Delete a Staff Member</button>
+    </div>
+
+    <script>
+        function addStaff() {
+
+        }
+
+        function updateStaff() {
+            window.location.href='admin-update-staff.html';
+        }
+
+        function deleteStaff() {
+
+        }
+    </script>
+</body>
+</html>
