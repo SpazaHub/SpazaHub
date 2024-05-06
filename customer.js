@@ -30,7 +30,7 @@ submit.addEventListener("click", function(event) {
         const user = userCredential.user;
         const username = user.displayName; // Assuming the username is stored in the displayName field
         sessionStorage.setItem("username", username);
-        window.location.href = "customer-landing.html";
+        window.location.href = "cart-customer.html";
 
     })
     .catch((error) =>{
@@ -59,7 +59,7 @@ const handleGoogleSignIn = () => {
             saveUserToDatabase(username, user.email)
                 .then(() => {
                     // Redirect to customer landing page after successfully saving user to database
-                    window.location.href = "customer-landing.html";
+                    window.location.href = "cart-customer.html";
                 })
                 .catch((error) => {
                     console.error("Error saving user to database:", error);
@@ -77,7 +77,7 @@ const handleGoogleSignIn = () => {
 const googleLoginBtn = document.getElementById('google-login-btn');
 googleLoginBtn.addEventListener("click", (event) => {
     if (auth.currentUser) {
-        window.location.href = "customer-landing.html";
+        window.location.href = "cart-customer.html";
     } else {
         handleGoogleSignIn();
     }
