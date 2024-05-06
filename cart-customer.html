@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="addtocart.css">
+        <script type="module" src="customer-cart.js" defer></script>
+        <script src="https://kit.fontawesome.com/92d70a2fd8.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="header">
+            <p class="logo">E-Spaza Hub</p>
+            <div class="cart"><i class="fa-solid fa-cart-shopping"></i><p id="count">0</p></div>
+        </div>
+        <div class="container">
+            <div id="root"></div>
+            <div class="sidebar">
+                <div class="head"><p>My Cart</p></div>
+                <div id="cartItem">Your cart is empty</div>
+                <div class="total-container">
+                    <h3>Total</h3>
+                    <h2 id="total">R 0.00</h2>
+                </div>
+                <button id="place-order-button" class="golden-button">Place Order</button>
+                <div id="order-status"></div>
+
+                <div id="user-order-status">
+                    <h2>Your Order Status</h2>
+                    <p id="current-status">Checking status...</p>
+                </div>
+                
+            </div>
+            
+            
+        </div>
+
+
+        
+    </body>
+</html>
