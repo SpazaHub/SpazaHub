@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "test": "jest"
+    "build":"echo 'No build steps required for Firebase project'"
   },
   "keywords": [],
   "author": "",
