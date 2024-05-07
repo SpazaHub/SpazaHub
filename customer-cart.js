@@ -2,7 +2,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js';
 import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js';
 
-// Firebase  configuration
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDP7N-NJ_PbOs41BbX6AgLZrBWdyP-odJU",
   authDomain: "espaza-login-final.firebaseapp.com",
