@@ -31,6 +31,44 @@ function fetchProducts() {
       onlyOnce: true
   });
 }
+// customer-cart.js
+
+document.getElementById('searchButton').addEventListener('click', () => {
+  const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+  if (searchTerm) {
+      // Perform search operation with the searchTerm
+      searchForProduct(searchTerm);
+  } else {
+      // Show all products if search input is empty
+      displayAllProducts();
+  }
+});
+
+function searchForProduct(searchTerm) {
+  // Filter the array of products based on the search term
+  const filteredProducts = products.filter(product =>
+      product.productName.toLowerCase().includes(searchTerm) ||
+      product.description.toLowerCase().includes(searchTerm)
+  );
+
+  // Display the filtered products
+  displayProducts(filteredProducts);
+}
+
+// Add event listener to the reset button
+document.getElementById('resetButton').addEventListener('click', () => {
+  // Clear the search input
+  document.getElementById('searchInput').value = '';
+
+  // Display all products
+  displayAllProducts();
+});
+
+
+function displayAllProducts() {
+  displayProducts(products);
+}
+
 
 
 function displayProducts(products) {

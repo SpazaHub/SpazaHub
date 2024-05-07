@@ -3,38 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
+    <title>Stock Management</title>
     <script type="module" src="staff-landing.js" defer></script>
-
-    <style>
-
-        .container {
-            text-align: right;
-        }
-    </style>
+    
 </head>
 <body>
-    
     <h2>Add New Product</h2>
-    <div class="container">
-        <button id="sign-out-btn-staff">Sign Out</button>
-    </div>
+    <!-- Form to add new product -->
     <form id="addProductForm">
+        <!-- Input fields for product details -->
         <label for="productName">Product Name:</label><br>
         <input type="text" id="productName" name="productName"><br>
 
         <label for="description">Description:</label><br>
         <textarea id="description" name="description"></textarea><br>
 
-        <label for="price">Price(Rands):</label><br>
+        <label for="price">Price (Rands):</label><br>
         <input type="number" id="price" name="price" placeholder="R"><br>
 
         <label for="productImage">Product Image:</label><br>
         <input type="file" id="productImage" accept="image/*" capture="camera" required><br><br>
 
-        <button id="Add" type="submit">Add Product</button><br>
+        <button type="submit">Add Product</button><br>
         <label id="uploadProgressMessage"></label>
-
     </form>
+
+    <h2>Stock Management</h2>
+    <!-- Table to display stock and remove quantities -->
+    <table id="stockTable">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Price (Rands)</th>
+                <th>Quantity</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="stockBody">
+            <!-- Table rows will be added dynamically -->
+        </tbody>
+    </table>
+    
+
+    <!-- Sign out button -->
+    <div>
+        <button id="sign-out-btn-staff">Sign Out</button>
+    </div>
 </body>
 </html>
