@@ -1,10 +1,10 @@
 {
-  "name": "SpazaHub",
+  "name": "spazahub",
   "version": "1.0.0",
   "description": "",
   "scripts": {
     "test": "jest",
-    "build":"npm run build"
+    "build":"azure"
   },
   "keywords": [],
   "author": "",
