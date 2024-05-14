@@ -1,11 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js";
-import { getDatabase, ref as dRef, push, set, update, get } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js"; // Only import getDatabase once
+import { getDatabase, ref as dRef, push, set, update, get, onValue } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-
-
-
-
 
 const firebaseConfig = {
     apiKey: "AIzaSyDP7N-NJ_PbOs41BbX6AgLZrBWdyP-odJU",
@@ -25,21 +21,20 @@ const auth = getAuth(app);
 let products = [];
 
 function fetchProducts() {
-    const productsRef = ref(database, 'Products');
+    const productsRef = dRef(db, 'Products');
     onValue(productsRef, (snapshot) => {
-        products = snapshot.val() ? Object.values(snapshot.val()) : [];
-        console.log("Fetched products:", products); // This will show what's being fetched
-        displayProducts(products);
-    }, {
-        onlyOnce: true
+        products = snapshot.val() ? Object.entries(snapshot.val()).map(([id, product]) => ({ productId: id, ...product })) : [];
+        console.log("Fetched products:", products);
+        displayStockData(products);
     });
-  }
+}
 
 const form = document.getElementById('addProductForm');
 const productNameInput = document.getElementById('productName');
 const descriptionInput = document.getElementById('description');
 const priceInput = document.getElementById('price');
 const imageInput = document.getElementById('productImage');
+const stockQuantityInput = document.getElementById('stockQuantity');
 const progressMessage = document.getElementById('uploadProgressMessage');
 
 const signOutBtn = document.getElementById('sign-out-btn-staff');
@@ -60,8 +55,9 @@ form.addEventListener('submit', async (e) => {
     
     const productName = productNameInput.value;
     const description = descriptionInput.value;
-    const price = 'R' + priceInput.value;
+    const price = priceInput.value;
     const imageFile = imageInput.files[0];
+    const stockQuantity = parseInt(stockQuantityInput.value);
 
     // Upload image to Firebase Storage
     const storageRef = sRef(storage, 'Product_Images/' + imageFile.name);
@@ -83,17 +79,18 @@ form.addEventListener('submit', async (e) => {
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                 
                 // Add product details to Realtime Database
-                
                 const productsRef = push(dRef(db, 'Products'));
                 set(productsRef, {
                     productName: productName,
                     description: description,
                     price: price,
-                    imageUrl: downloadURL
+                    imageUrl: downloadURL,
+                    quantity: stockQuantity // Set initial quantity
                 }).then(() => {
                     console.log('Product added successfully');
                     // Reset form fields
                     form.reset();
+                    fetchProducts(); // Refresh the product list
                 }).catch((error) => {
                     console.error('Error adding product: ', error);
                 });
@@ -103,68 +100,67 @@ form.addEventListener('submit', async (e) => {
 });
 
 // Function to retrieve and display stock data
-// Function to retrieve and display stock data
-function displayStockData() {
+function displayStockData(products) {
     const stockBody = document.getElementById('stockBody');
     stockBody.innerHTML = ''; // Clear existing rows
 
-    // Query Realtime Database to get stock data
-    const productsRef = dRef(db, 'Products');
-    return get(productsRef)
-        .then((snapshot) => {
-            snapshot.forEach((childSnapshot) => {
-                const productData = childSnapshot.val();
-                const productName = productData.productName;
-                const price = productData.price;
-                const quantity = productData.quantity || 0; // Assuming quantity field exists
-                // Create table row for each product
-                const row = `
-                    <tr>
-                        <td>${productName}</td>
-                        <td>${price}</td>
-                        <td>${quantity}</td>
-                        <td>
-                            <button onclick="removeQuantity('${childSnapshot.key}')">Remove Quantity</button>
-                        </td>
-                    </tr>
-                `;
-                stockBody.insertAdjacentHTML('beforeend', row);
-            });
-        })
-        .catch((error) => {
-            console.error('Error getting stock data:', error);
-        });
-}
-
-// Function to remove quantity from stock
-window.removeQuantity = function(productId) {
-    // Get a reference to the product node in the database
-    const productRef = dRef(db, `Products/${productId}`);
-
-    // Fetch the current quantity from the database
-    get(productRef).then((snapshot) => {
-        const currentQuantity = snapshot.val().quantity || 0;
-
-        // Ensure quantity doesn't go below 0
-        const newQuantity = Math.max(currentQuantity - 1, 0);
-
-        // Update the quantity in the database
-        update(productRef, { quantity: newQuantity })
-            .then(() => {
-                console.log('Quantity removed successfully');
-                // Update the displayed stock data after removing quantity
-                displayStockData();
-            })
-            .catch((error) => {
-                console.error('Error removing quantity:', error);
-            });
-    }).catch((error) => {
-        console.error('Error fetching current quantity:', error);
+    products.forEach((product) => {
+        const productName = product.productName;
+        const price = product.price;
+        const quantity = product.quantity || 0;
+        // Create table row for each product
+        const row = `
+            <tr>
+                <td>${productName}</td>
+                <td>${price}</td>
+                <td>${quantity}</td>
+                <td>
+                    <button onclick="showAddStockForm('${product.productId}')">Add Stock</button>
+                </td>
+            </tr>
+        `;
+        stockBody.insertAdjacentHTML('beforeend', row);
     });
 }
 
+// Function to show add stock form
+window.showAddStockForm = function(productId) {
+    const product = products.find(p => p.productId === productId);
+    if (product) {
+        const newStockQuantity = prompt(`Add stock for ${product.productName}. Current stock: ${product.quantity}`, "0");
+        if (newStockQuantity !== null && !isNaN(newStockQuantity)) {
+            const quantityToAdd = parseInt(newStockQuantity);
+            if (quantityToAdd > 0) {
+                updateStockQuantity(productId, quantityToAdd);
+            }
+        }
+    }
+}
 
+// Function to update stock quantity
+function updateStockQuantity(productId, quantityToAdd) {
+    const productRef = dRef(db, `Products/${productId}`);
 
-// Call displayStockData function when the page loads
-window.addEventListener('load', displayStockData);
+    get(productRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            const currentQuantity = snapshot.val().quantity || 0;
+            const newQuantity = currentQuantity + quantityToAdd;
 
+            update(productRef, { quantity: newQuantity })
+                .then(() => {
+                    console.log('Stock added successfully');
+                    fetchProducts(); // Refresh the product list
+                })
+                .catch((error) => {
+                    console.error('Error adding stock:', error);
+                });
+        } else {
+            console.error('Product not found:', productId);
+        }
+    }).catch((error) => {
+        console.error('Error fetching product data:', error);
+    });
+}
+
+// Call fetchProducts function when the page loads
+window.addEventListener('load', fetchProducts);

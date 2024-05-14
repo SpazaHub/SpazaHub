@@ -8,16 +8,24 @@
 <body>
     <div class="header">
         <p class="logo">E-Spaza Hub</p>
-        <div class="cart"><i class="fa-solid fa-cart-shopping"></i><p id="count">0</p></div>
-    </div>
-    <div class="container">
-        <!-- Search bar -->
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search for products...">
-            <button id="searchButton"><i class="fas fa-search"></i></button>
-            <button id="resetButton">Reset</button> <!-- New reset button -->
+        <div class="user-info">
+            <span id="username-display">Welcome, User</span>
+            <button id="sign-out-button" class="sign-out">Sign Out</button>
         </div>
-        
+        <div class="cart">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <p id="count">0</p>
+        </div>
+    </div>
+    
+    <!-- Search bar -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search for products...">
+        <button id="searchButton"><i class="fas fa-search"></i></button>
+        <button id="resetButton">Reset</button>
+    </div>
+
+    <div class="container">
         <div id="root"></div>
         <div class="sidebar">
             <div class="head"><p>My Cart</p></div>
@@ -33,6 +41,17 @@
                 <h2>Your Order Status</h2>
                 <p id="current-status">Checking status...</p>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalName"></h2>
+            <img id="modalImage" src="" alt="Product Image" />
+            <p id="modalDescription"></p>
+            <h3 id="modalPrice"></h3>
         </div>
     </div>
 </body>

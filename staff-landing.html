@@ -5,9 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Management</title>
     <script type="module" src="staff-landing.js" defer></script>
+    <link rel="stylesheet" href="staff.css">
+
     
 </head>
 <body>
+        <!-- Sign out button -->
+    <div class="header">
+        <h1>Staff Dashboard</h1>
+
+        <button id="sign-out-btn-staff">Sign Out</button>
+    </div>
     <h2>Add New Product</h2>
     <!-- Form to add new product -->
     <form id="addProductForm">
@@ -20,6 +28,9 @@
 
         <label for="price">Price (Rands):</label><br>
         <input type="number" id="price" name="price" placeholder="R"><br>
+
+        <label for="stockQuantity">Stock Quantity:</label><br>
+        <input type="number" id="stockQuantity" name="stockQuantity" required><br>
 
         <label for="productImage">Product Image:</label><br>
         <input type="file" id="productImage" accept="image/*" capture="camera" required><br><br>
@@ -45,9 +56,6 @@
     </table>
     
 
-    <!-- Sign out button -->
-    <div>
-        <button id="sign-out-btn-staff">Sign Out</button>
-    </div>
+
 </body>
 </html>
