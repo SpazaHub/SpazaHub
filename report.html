@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="addtocart.css">
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        .stock-display, .order-history, .low-inventory {
+            flex: 1;
+            margin: 10px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+        }
+
+        .dashboard-heading {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+    
+
+    </style>
+    <script type="module" src="report.js" defer></script>
+    <script src="https://kit.fontawesome.com/92d70a2fd8.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <!-- Include jsPDF library from CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+
+
+</head>
+<body>
+    <div class="header">
+        <p class="logo">E-Spaza Hub</p>
+    </div>
+
+    
+    <h2 class="dashboard-heading">Dashboard</h2> <!-- Dashboard heading -->
+
+    <div class="container">
+        <div id="stockList" class="stock-display">
+            <button id="export-stock-csv" class="golden-button">Export Stock to CSV</button>
+            <h2>Stock on Hand</h2>
+            <!-- Stock items will be displayed here -->
+        </div>
+        <div id="orderList" class="order-history">
+            <button id="export-orders-csv" class="golden-button">Export Order to CSV</button>
+            <h2>Order History</h2>
+            <!-- Order items will be displayed here -->
+        </div>
+        <div id="lowInventory" class="low-inventory">
+            <button id="export-low-inventory-csv" class="golden-button">Export Low Inventory to CSV</button>
+            <h2>Low Inventory</h2>
+            <!-- Low inventory items will be displayed here -->
+        </div>
+    </div>
+    
+    
+</body>
+</html>
+
+
