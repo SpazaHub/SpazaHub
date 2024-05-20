@@ -24,7 +24,7 @@ function fetchProducts() {
     const productsRef = dRef(db, 'Products');
     onValue(productsRef, (snapshot) => {
         products = snapshot.val() ? Object.entries(snapshot.val()).map(([id, product]) => ({ productId: id, ...product })) : [];
-        console.log("Fetched products:", products);
+        console.log("Fetched products:", products); // Debugging line
         displayStockData(products);
     });
 }
@@ -49,7 +49,6 @@ signOutBtn.addEventListener('click', () => {
         });
 });
 
-// Function to add a new product
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -59,38 +58,30 @@ form.addEventListener('submit', async (e) => {
     const imageFile = imageInput.files[0];
     const stockQuantity = parseInt(stockQuantityInput.value);
 
-    // Upload image to Firebase Storage
     const storageRef = sRef(storage, 'Product_Images/' + imageFile.name);
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
 
     uploadTask.on('state_changed',
         (snapshot) => {
-            // Handle progress
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             progressMessage.textContent = 'Upload is ' + Math.round(progress) + '% done';
-
         },
         (error) => {
-            // Handle unsuccessful uploads
             console.error('Error uploading image: ', error);
         },
         () => {
-            // Handle successful uploads on complete
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                
-                // Add product details to Realtime Database
                 const productsRef = push(dRef(db, 'Products'));
                 set(productsRef, {
                     productName: productName,
                     description: description,
                     price: price,
                     imageUrl: downloadURL,
-                    quantity: stockQuantity // Set initial quantity
+                    quantity: stockQuantity
                 }).then(() => {
                     console.log('Product added successfully');
-                    // Reset form fields
                     form.reset();
-                    fetchProducts(); // Refresh the product list
+                    fetchProducts();
                 }).catch((error) => {
                     console.error('Error adding product: ', error);
                 });
@@ -99,16 +90,14 @@ form.addEventListener('submit', async (e) => {
     );
 });
 
-// Function to retrieve and display stock data
 function displayStockData(products) {
     const stockBody = document.getElementById('stockBody');
-    stockBody.innerHTML = ''; // Clear existing rows
+    stockBody.innerHTML = ''; 
 
     products.forEach((product) => {
         const productName = product.productName;
         const price = product.price;
         const quantity = product.quantity || 0;
-        // Create table row for each product
         const row = `
             <tr>
                 <td>${productName}</td>
@@ -123,7 +112,6 @@ function displayStockData(products) {
     });
 }
 
-// Function to show add stock form
 window.showAddStockForm = function(productId) {
     const product = products.find(p => p.productId === productId);
     if (product) {
@@ -137,19 +125,16 @@ window.showAddStockForm = function(productId) {
     }
 }
 
-// Function to update stock quantity
 function updateStockQuantity(productId, quantityToAdd) {
     const productRef = dRef(db, `Products/${productId}`);
-
     get(productRef).then((snapshot) => {
         if (snapshot.exists()) {
             const currentQuantity = snapshot.val().quantity || 0;
             const newQuantity = currentQuantity + quantityToAdd;
-
             update(productRef, { quantity: newQuantity })
                 .then(() => {
                     console.log('Stock added successfully');
-                    fetchProducts(); // Refresh the product list
+                    fetchProducts();
                 })
                 .catch((error) => {
                     console.error('Error adding stock:', error);
@@ -162,5 +147,59 @@ function updateStockQuantity(productId, quantityToAdd) {
     });
 }
 
-// Call fetchProducts function when the page loads
-window.addEventListener('load', fetchProducts);
+function fetchOrders() {
+    const ordersRef = dRef(db, 'Orders');
+    onValue(ordersRef, (snapshot) => {
+        const orders = snapshot.val() ? Object.entries(snapshot.val()).map(([id, order]) => ({ orderId: id, ...order })) : [];
+        console.log("Fetched orders:", orders);
+        displayOrderData(orders);
+    });
+}
+
+function displayOrderData(orders) {
+    const orderBody = document.getElementById('orderBody');
+    orderBody.innerHTML = ''; 
+
+    orders.forEach((order) => {
+        const { orderId, username, totalAmount, status } = order;
+        const row = `
+            <tr>
+                <td>${orderId}</td>
+                <td>${username}</td>
+                <td>${totalAmount}</td>
+                <td>${status}</td>
+                <td>
+                    <select onchange="updateOrderStatus('${orderId}', this.value)">
+                        <option value="pending" ${status === "pending" ? "selected" : ""}>Pending</option>
+                        <option value="shipped" ${status === "shipped" ? "selected" : ""}>Shipped</option>
+                        <option value="delivered" ${status === "delivered" ? "selected" : ""}>Delivered</option>
+                        <option value="cancelled" ${status === "cancelled" ? "selected" : ""}>Cancelled</option>
+                    </select>
+                </td>
+            </tr>
+        `;
+        orderBody.insertAdjacentHTML('beforeend', row);
+    });
+}
+
+window.updateOrderStatus = function(orderId, newStatus) {
+    const orderRef = dRef(db, `Orders/${orderId}`);
+    update(orderRef, { status: newStatus })
+        .then(() => {
+            console.log(`Order ${orderId} status updated to ${newStatus}`);
+            fetchOrders();
+        })
+        .catch((error) => {
+            console.error('Error updating order status:', error);
+        });
+}
+
+window.addEventListener('load', () => {
+    fetchProducts(); // Fetch and display products when the page loads
+    fetchOrders();   // Fetch and display orders when the page loads
+});
+
+// Event listener for the report button
+document.getElementById('report-btn').addEventListener('click', () => {
+    window.location.href = 'report.html';
+});
