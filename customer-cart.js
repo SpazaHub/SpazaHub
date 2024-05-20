@@ -310,3 +310,83 @@ window.onclick = function(event) {
 
 // Attach event listener to the Complete Order button
 document.getElementById('place-order-button').addEventListener('click', placeOrder);
+// Function to fetch and display the latest order status
+function fetchAndDisplayOrderStatus() {
+    const user = auth.currentUser;
+    if (!user) {
+        console.error("No user is currently logged in.");
+        document.getElementById('order-status-text').textContent = "You must be logged in to view your order status.";
+        return;
+    }
+
+    const ordersRef = ref(database, 'Orders');
+    get(ordersRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            const orders = snapshot.val();
+            // Find the latest order for the logged-in user
+            let latestOrder = null;
+            Object.keys(orders).forEach(key => {
+                const order = orders[key];
+                if (order.userId === user.uid) {
+                    if (!latestOrder || new Date(latestOrder.date) < new Date(order.date)) {
+                        latestOrder = order;
+                    }
+                }
+            });
+
+            if (latestOrder) {
+                displayOrderStatus(latestOrder);
+            } else {
+                document.getElementById('order-status-text').textContent = "No orders found.";
+            }
+        } else {
+            document.getElementById('order-status-text').textContent = "No orders data available.";
+        }
+    }).catch(error => {
+        console.error("Error fetching orders:", error);
+        document.getElementById('order-status-text').textContent = "Failed to fetch order status.";
+    });
+}
+
+function displayOrderStatus(order) {
+    const formatCurrency = (value) => {
+        // Check if the value is numeric and format it, otherwise return "Invalid price"
+        const numericValue = parseFloat(value);
+        return !isNaN(numericValue) ? `R ${numericValue.toFixed(2)}` : "Invalid price";
+    };
+
+    let itemsHtml = order.items.map(item => {
+        const itemPrice = formatCurrency(item.price);
+        return `
+            <div class="order-item">
+                <span class="item-name">${item.productName}</span>
+                <span class="item-quantity">x${item.quantity}</span>
+                <span class="item-price">${itemPrice}</span>
+            </div>
+        `;
+    }).join('');
+
+    // Attempt to calculate total from individual item prices
+    let total = order.items.reduce((acc, item) => {
+        const price = parseFloat(item.price);
+        return acc + (isNaN(price) ? 0 : price * item.quantity);
+    }, 0);
+
+    let totalFormatted = !isNaN(total) ? formatCurrency(total) : "Calculation Error";
+
+    let orderHtml = `
+        <div class="order-details">
+            <h3>Last Order (${new Date(order.date).toLocaleDateString()} at ${new Date(order.date).toLocaleTimeString()}):</h3>
+            <div class="items-list">${itemsHtml}</div>
+            <div class="order-total">Total: ${totalFormatted}</div>
+            <div class="order-status">Status: ${order.status}</div>
+        </div>
+    `;
+
+    document.getElementById('order-status-text').innerHTML = orderHtml;
+}
+
+
+
+// Attach event listener to the Check Order Status button
+document.getElementById('check-order-status-button').addEventListener('click', fetchAndDisplayOrderStatus);
