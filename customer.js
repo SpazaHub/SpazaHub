@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
-import{getDatabase, ref, set, get, child} from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
+import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDP7N-NJ_PbOs41BbX6AgLZrBWdyP-odJU",
@@ -9,7 +9,7 @@ const firebaseConfig = {
     storageBucket: "espaza-login-final.appspot.com",
     messagingSenderId: "358577580383",
     appId: "1:358577580383:web:af7778db3431aaa2c72eea"
-  };
+};
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -39,8 +39,6 @@ submit.addEventListener("click", function(event) {
         alert("Invalid Login Credentials, please try again!");
     });
 });
-
-
 
 // Function to handle Google sign-in
 const handleGoogleSignIn = () => {
@@ -83,37 +81,35 @@ googleLoginBtn.addEventListener("click", (event) => {
     }
 });
 
-
 //Customer Registration to DB
 document.getElementById('register-btn').addEventListener('click', function(e){
-   e.preventDefault();
+    e.preventDefault();
 
-   const username = user.displayName; 
-    sessionStorage.setItem("username", username);
-   const email = document.getElementById("register-email").value;
-   const password = document.getElementById("register-password").value;
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("register-email").value;
+    const password = document.getElementById("register-password").value;
 
-   checkUsernameExists(username)
-       .then((exists) => {
-           if (!exists) {
-               createUserWithEmailAndPassword(auth, email, password)
-                   .then((userCredential) => {
-                       saveUserToDatabase(username, email);
+    checkUsernameExists(username)
+        .then((exists) => {
+            if (!exists) {
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        saveUserToDatabase(username, email);
                         sessionStorage.setItem("username", username);
-                       window.location.href = "customer-login.html";
-                   })
-                   .catch((error) =>{
-                       console.error("Error creating user:", error);
-                       alert("Error creating user: " + error.message);
-                   });
-           } else {
-               alert("Username already exists. Please choose a different username.");
-           }
-       })
-       .catch((error) => {
-           console.error("Error checking username:", error);
-           alert("An error occurred. Please try again later.");
-       });
+                        window.location.href = "customer-login.html";
+                    })
+                    .catch((error) =>{
+                        console.error("Error creating user:", error);
+                        alert("Error creating user: " + error.message);
+                    });
+            } else {
+                alert("Username already exists. Please choose a different username.");
+            }
+        })
+        .catch((error) => {
+            console.error("Error checking username:", error);
+            alert("An error occurred. Please try again later.");
+        });
 });
 
 function checkUsernameExists(username) {
