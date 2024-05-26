@@ -12,6 +12,7 @@
 9. [Continuous Integration/Continuous Deployment (CI/CD)](#continuous-integrationcontinuous-deployment-cicd)
 10. [Scrum Methodology](#scrum-methodology)
 11. [Acknowledgements](#acknowledgements)
+12. [Required passwords](#required-passwords)
 
 ## Introduction
 The e-Spaza project is designed to equip spaza shop owners with an efficient stock management system and provide customers with a convenient way to order items from multiple shops. This README provides an overview of the project, installation instructions, usage guidelines, and other relevant information for assessment purposes.
@@ -80,5 +81,17 @@ We followed the Scrum methodology throughout the project, ensuring regular sprin
   Shayur Govin - 2558583
   Justin Gangan - 2461953
   Sayj Ramsamy - 2551879
-  Andre Canga - 2557226 
-- References to any third-party libraries or tools used.
+  Andre Canga - 2557226
+
+## Required Passwords
+-To access admin page: admin123
+Admin login:
+email:tammy@espazaadmin.co.za
+password:Tammy7
+-To access staff page: staff123
+Staff login:
+email:trent@espazaadmin.co.za
+password:Trent7
+-To access Jira:
+email:softwaredesigniscool@gmail.com
+password:Luckyiscool123!@#
