@@ -76,22 +76,22 @@ We followed the Scrum methodology throughout the project, ensuring regular sprin
 
 ## Acknowledgements
 - Group members:
-  Devesh Chiba - 2537948
-  Ariyasha Manilall - 2446895
-  Shayur Govin - 2558583
-  Justin Gangan - 2461953
-  Sayj Ramsamy - 2551879
-  Andre Canga - 2557226
+  **Devesh Chiba** - 2537948
+  **Ariyasha Manilall** - 2446895
+  **Shayur Govin** - 2558583
+  **Justin Gangan** - 2461953
+  **Sayj Ramsamy** - 2551879
+  **Andre Canga** - 2557226
 
 ## Required Passwords
--To access admin page: admin123
+-**To access admin page:** admin123
 Admin login:
 email:tammy@espazaadmin.co.za
 password:Tammy7
--To access staff page: staff123
+-**To access staff page:** staff123
 Staff login:
 email:trent@espazaadmin.co.za
 password:Trent7
--To access Jira:
+-**To access Jira:**
 email:softwaredesigniscool@gmail.com
 password:Luckyiscool123!@#
