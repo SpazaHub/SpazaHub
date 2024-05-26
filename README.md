@@ -62,10 +62,11 @@ The e-Spaza project is designed to equip spaza shop owners with an efficient sto
 - **CI/CD**: GitHub Actions.
 
 ## Testing
-- **Unit Tests**: Written using Jest.
+- **Unit Tests**: Written using Jest, found in Tests folder.
     ```bash
     npm test
     ```
+- **Deployment Issue with Test Files**: There was an issue with deploying Node.js applications on Azure when test files were included. To resolve this, the `Tests/` directory (including the `node_modules` folder) has been added but is ignored in the `.gitignore` file to ensure successful deployment. If you need to run the tests, make sure to fetch the test files from the repository separately.
 
 ## Continuous Integration/Continuous Deployment (CI/CD)
 - Configured using GitHub Actions.
