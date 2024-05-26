@@ -91,8 +91,8 @@ email:tammy@espazaadmin.co.za
 password:Tammy7
 -**To access staff page:** staff123
 Staff login:
-email:trent@espazaadmin.co.za
-password:Trent7
+email:steven@espazaadmin.co.za
+password:Steven7
 -**To access Jira:**
 email:softwaredesigniscool@gmail.com
 password:Luckyiscool123!@#
